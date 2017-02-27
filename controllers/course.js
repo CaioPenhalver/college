@@ -11,10 +11,10 @@ module.exports = function(app) {
   
   return {
     listCourses: function(req, res){
-      res.render('course/index');
+      var params = { courses: courseDB.find() };
+      res.render('course/index', params);
     },
     createCourse: function(req, res){
-      console.log(req.body);
       courseDB.insert(req.body);
       console.log(courseDB.find());
       var params = { courses: courseDB.find() };
@@ -25,7 +25,14 @@ module.exports = function(app) {
       res.render('course/new', params);
     },
     showCourse: function(req, res) {
-      var params = { course: courseDB.get(req.params.id) };
+      var course = courseDB.get(req.params.id)
+      categories.forEach(function(c){
+        if(parseInt(course.category_id) === c.id){
+          course.category = c.name;
+          return;
+        }
+      });
+      var params = { course: course };
       res.render('course/show', params);
     }
   }

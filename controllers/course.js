@@ -1,4 +1,4 @@
-var courseDB = require('../db/db.js');
+var courseDB = require('../db/db.js').courses;
 
 module.exports = function(app) {
   var categories = [
